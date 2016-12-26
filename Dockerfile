@@ -75,6 +75,6 @@ USER "${user}"
 ENV QT_X11_NO_MITSHM=1
 ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
 # Switch to the workspace
-#WORKDIR ${workspace}
+WORKDIR ${home}
 
 
