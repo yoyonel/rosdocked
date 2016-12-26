@@ -29,4 +29,5 @@ docker run\
   -v $SSH_AUTH_SOCK:/ssh-agent \
   -e SSH_AUTH_SOCK=/ssh-agent \
   -w $PWD \
-  -it $1 $SHELL
+  -it $1 $SHELL \
+  -c "alias ls='ls --color=auto'"
