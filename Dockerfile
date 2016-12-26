@@ -7,8 +7,15 @@ ARG home
 ARG workspace
 ARG shell
 
+# CMake 3.x
+RUn apt-get update
+RUN apt-get -y remove cmake cmake-data
+RUN apt-get -y install software-properties-common
+RUN add-apt-repository -y ppa:george-edison55/cmake-3.x && apt-get update
+RUN apt-get -y install cmake
+
 # Basic Utilities
-RUN apt-get -y update && apt-get install -y zsh screen tree sudo ssh synaptic
+RUN apt-get -y update && apt-get install -y zsh tmux tree sudo ssh synaptic mosh
 
 # Latest X11 / mesa GL
 RUN apt-get install -y\
@@ -56,3 +63,7 @@ ENV QT_X11_NO_MITSHM=1
 ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
 # Switch to the workspace
 WORKDIR ${workspace}
+
+#
+RUN apt-get install -y bash-completion realpath
+
