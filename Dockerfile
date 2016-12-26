@@ -15,7 +15,7 @@ RUN add-apt-repository -y ppa:george-edison55/cmake-3.x && apt-get update
 RUN apt-get -y install cmake
 
 # Basic Utilities
-RUN apt-get -y update && apt-get install -y zsh tmux tree sudo ssh synaptic mosh
+RUN apt-get -y update && apt-get install -y zsh tree sudo ssh synaptic mosh
 
 # Latest X11 / mesa GL
 RUN apt-get install -y\
@@ -43,6 +43,19 @@ RUN apt-get install -y ros-indigo-desktop-full
 RUN apt-get install -y x11-apps python-pip build-essential
 RUN pip install catkin_tools
 
+# Add packages
+RUN apt-get install -y\
+    bash-completion \
+    realpath
+
+# TMux (last release from sources)
+RUN apt-get install -y automake libevent-dev ncurses-dev
+RUN git clone https://github.com/tmux/tmux.git /tmp/tmux
+WORKDIR /tmp/tmux
+RUN sh autogen.sh && ./configure
+RUN make install -j
+RUN rm -rf /tmp/tmux
+
 # Make SSH available
 EXPOSE 22
 
@@ -62,8 +75,6 @@ USER "${user}"
 ENV QT_X11_NO_MITSHM=1
 ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
 # Switch to the workspace
-WORKDIR ${workspace}
+#WORKDIR ${workspace}
 
-#
-RUN apt-get install -y bash-completion realpath
 
