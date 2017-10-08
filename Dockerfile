@@ -1,4 +1,5 @@
-FROM ros:indigo
+# FROM ros:indigo
+FROM ros:lunar
 
 # Arguments
 ARG user
@@ -15,32 +16,42 @@ RUN add-apt-repository -y ppa:george-edison55/cmake-3.x && apt-get update
 RUN apt-get -y install cmake
 
 # Basic Utilities
-RUN apt-get -y update && apt-get install -y zsh tree sudo ssh synaptic mosh
+RUN apt-get -y update && \
+    apt-get install -y \
+      zsh \
+      tree \
+      sudo \
+      ssh \
+      synaptic \
+      mosh
 
 # Latest X11 / mesa GL
-RUN apt-get install -y\
-  xserver-xorg-dev-lts-wily\
-  libegl1-mesa-dev-lts-wily\
-  libgl1-mesa-dev-lts-wily\
-  libgbm-dev-lts-wily\
-  mesa-common-dev-lts-wily\
-  libgles2-mesa-lts-wily\
-  libwayland-egl1-mesa-lts-wily\
-  libopenvg1-mesa
+# RUN apt-get install -y\
+#   xserver-xorg-dev-lts-wily\
+#   libegl1-mesa-dev-lts-wily\
+#   libgl1-mesa-dev-lts-wily\
+#   libgbm-dev-lts-wily\
+#   mesa-common-dev-lts-wily\
+#   libgles2-mesa-lts-wily\
+#   libwayland-egl1-mesa-lts-wily\
+#   libopenvg1-mesa
 
 # Dependencies required to build rviz
-RUN apt-get install -y\
-  qt4-dev-tools\
-  libqt5core5a libqt5dbus5 libqt5gui5 libwayland-client0\
-  libwayland-server0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1\
-  libxcb-render-util0 libxcb-util0 libxcb-xkb1 libxkbcommon-x11-0\
-  libxkbcommon0
+# RUN apt-get install -y\
+#   qt4-dev-tools\
+#   libqt5core5a libqt5dbus5 libqt5gui5 libwayland-client0\
+#   libwayland-server0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1\
+#   libxcb-render-util0 libxcb-util0 libxcb-xkb1 libxkbcommon-x11-0\
+#   libxkbcommon0
 
 # The rest of ROS-desktop
-RUN apt-get install -y ros-indigo-desktop-full
+# RUN apt-get install -y ros-indigo-desktop-full
 
 # Additional development tools
-RUN apt-get install -y x11-apps python-pip build-essential
+RUN apt-get install -y \
+      x11-apps \
+      python-pip \
+      build-essential
 RUN pip install catkin_tools
 
 # Add packages
@@ -76,5 +87,3 @@ ENV QT_X11_NO_MITSHM=1
 ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
 # Switch to the workspace
 WORKDIR ${home}
-
-
